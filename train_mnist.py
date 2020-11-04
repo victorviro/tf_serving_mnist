@@ -6,6 +6,7 @@ import numpy as np
 
 import tensorflow as tf
 from tensorflow import keras
+from tensorflow.keras.utils import plot_model
 
 
 
@@ -30,6 +31,8 @@ model.compile(loss="sparse_categorical_crossentropy",
               metrics=["accuracy"])
 history = model.fit(X_train, y_train, epochs=3, validation_data=(X_valid, y_valid))
 
+plot_model(model, to_file='model.png', show_shapes=True)
+
 test_loss, test_acc = model.evaluate(X_test, y_test)
 print('\nTest accuracy: {}'.format(test_acc))
 
@@ -38,5 +41,7 @@ model_version = "0001"
 model_name = "my_mnist_model"
 model_path = os.path.join(model_name, model_version)
 print('Path where the model will be stored: {}\n'.format(model_path))
+
+
 
 tf.saved_model.save(model, model_path)
