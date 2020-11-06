@@ -7,7 +7,7 @@ from tensorflow import keras
 #from tensorflow.keras.utils import plot_model
 
 
-# Import the Fashion MNIST dataset
+# Import the MNIST dataset
 (X_train_full, y_train_full), (X_test, y_test) = keras.datasets.mnist.load_data()
 # Scale the values to 0.0 to 1.0
 X_train_full = X_train_full[..., np.newaxis].astype(np.float32) / 255.

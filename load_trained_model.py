@@ -15,7 +15,7 @@ cwd = os.getcwd()
 model_path = f'{cwd}/my_mnist_model/0001'
 model = keras.models.load_model(model_path)
 
-# Import the Fashion MNIST dataset
+# Import the MNIST dataset
 (X_train_full, y_train_full), (X_test, y_test) = keras.datasets.mnist.load_data()
 # Scale the values to 0.0 to 1.0
 X_train_full = X_train_full[..., np.newaxis].astype(np.float32) / 255.
