@@ -2,11 +2,11 @@
 
 ## Introduction
 
-This project is based on the notebook: [Deploying TensorFlow Models with TF Serving](https://github.com/victorviro/Deep_learning_python/blob/master/Deploying_TensorFlow_Models_with_TF_Serving.ipynb). In this case we will run TensorFlow Serving in a Docker container, which is highly recommended by the TensorFlow team as it is simple to install, it will not mess with our system, and it offers high performance.
+This project is based on the notebook: [Deploying TensorFlow Models with TF Serving](https://github.com/victorviro/Deep_learning_python/blob/master/Deploying_TensorFlow_Models_with_TF_Serving.ipynb). In this case, we will run TensorFlow Serving in a Docker container, which is highly recommended by the TensorFlow team as it is simple to install, it will not mess with our system, and it offers high performance.
 
 ## First steps
 - Clone the repository: `git clone https://github.com/victorviro/tf_serving_mnist.git`
-- Create a virtual environment and install the packages needed (if there are problems intalling tensorflow, you can install it following these [instructions](https://www.tensorflow.org/install/pip)) (optionally [Install graphviz](https://www.graphviz.org/download/) in your system) :
+- Create a virtual environment and install the packages needed (if there are problems installing TensorFlow, you can install it following these [instructions](https://www.tensorflow.org/install/pip)) (optionally [Install Graphviz](https://www.graphviz.org/download/) in your system) :
   ```
   python3 -m venv venv
   source venv/bin/activate
@@ -26,7 +26,7 @@ This project is based on the notebook: [Deploying TensorFlow Models with TF Serv
   ```
 
 
-- TensorFlow also comes with a small `saved_model_cli` command-line tool to inspect and examine SavedModels (see the norebook for more details):
+- TensorFlow also comes with a small `saved_model_cli` command-line tool to inspect and examine SavedModels (see the notebook for more details):
   ```
   saved_model_cli show --dir my_mnist_model/0001
   saved_model_cli show --dir my_mnist_model/0001 --tag_set serve
@@ -42,11 +42,11 @@ This project is based on the notebook: [Deploying TensorFlow Models with TF Serv
 
 There are many ways to install TF Serving: using a Docker image, using the system’s package manager, installing from source, and more. Let’s use the Docker option, which is highly recommended by the TensorFlow team as it is simple to install, it will not mess with our system, and it offers high performance. We first need to install [Docker](https://docs.docker.com/get-docker/). Then download the official TF Serving Docker image:
 
-Pull the latest TensorFlow Serving docker image by running
+Pull the latest TensorFlow Serving Docker image by running
 ```
 docker pull tensorflow/serving
 ```
-This will pull down an minimal Docker image with TensorFlow Serving installed.
+This will pull down a minimal Docker image with TensorFlow Serving installed.
 
 See the Docker Hub [tensorflow/serving repo](http://hub.docker.com/r/tensorflow/serving/tags/) for other versions of images you can pull.
 
@@ -87,8 +87,35 @@ That’s it! TF Serving is running. It loaded our MNIST model (version 1), and i
 
 ## Querying TF Serving through the REST API
 
-TODO: Create script for querying TF Serving through the REST API
+Run the script `query_TF_serving_REST.py` to make predictions querying TF Serving through the REST API. See the notebook for more details.
 
+To querying TF Serving through the gRPC API you can follow the notebook, it's straightforward. 
+
+## Deploying a new model version
+
+We can train a new model running the script we used previously (`train_mnist.py`), for instance, increasing the number of epochs, and finally export the model to the SavedModel format specifying its name (`my_mnist_model`) and the new version number (`0002`). The directory structure now is as follows:
+
+```
+my_mnist_model/
+    0002/
+        saved_model.pb
+        assets/
+        variables/
+            variables.data-00000-of-00001
+            variables.index
+    0001/
+        saved_model.pb
+        assets/
+        variables/
+            variables.data-00000-of-00001
+            variables.index
+```
+
+At regular intervals, TensorFlow Serving checks for new model versions. If it finds one, it will automatically handle the transition gracefully.
+
+**Note**: We may need to wait a minute before the new model is loaded by TensorFlow Serving.
+
+Now we can make predictions querying TF Serving through the REST API as we did previously.
 
 # References
 
