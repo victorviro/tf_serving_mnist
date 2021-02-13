@@ -33,8 +33,6 @@ history = model.fit(X_train, y_train, epochs=3, validation_data=(X_valid, y_vali
 test_loss, test_acc = model.evaluate(X_test, y_test)
 print('\nTest accuracy: {}'.format(test_acc))
 
-#plot_model(model, to_file='model.png', show_shapes=True)
-
 # Export the model to the SavedModel format
 model_version = "0001"
 model_name = "my_mnist_model"

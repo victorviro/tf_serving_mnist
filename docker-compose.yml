@@ -1,0 +1,16 @@
+version: "2.2"
+
+
+services:
+
+  tf_serving:
+    container_name: tf_serving_mnist
+    image: tensorflow/serving:2.2.2
+    restart: always
+    ports:
+      - '8500:8500'
+      - '8501:8501'
+    environment:
+      MODEL_NAME: my_mnist_model
+    volumes:
+      - ./my_mnist_model:/models/my_mnist_model
